@@ -1,0 +1,23 @@
+{
+  "name": "stutzthings-registration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/app/src/index.js",
+  "scripts": {
+    "start": "",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stutzlab/stutzthings-registration.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stutzlab/stutzthings-registration/issues"
+  },
+  "homepage": "https://github.com/stutzlab/stutzthings-registration#readme",
+  "dependencies": {
+    "hapi": "^13.4.1"
+  }
+}
