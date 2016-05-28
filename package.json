@@ -2,9 +2,8 @@
   "name": "stutzthings-registration",
   "version": "1.0.0",
   "description": "",
-  "main": "/app/src/index.js",
   "scripts": {
-    "start": "",
+    "start": "node /app/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
