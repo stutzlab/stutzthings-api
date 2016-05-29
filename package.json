@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/stutzlab/stutzthings-registration#readme",
   "dependencies": {
-    "hapi": "^13.4.1"
+    "hapi": "^13.4.1",
+    "winston": "^2.2.0"
   }
 }
