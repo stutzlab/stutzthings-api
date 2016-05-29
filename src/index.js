@@ -23,9 +23,10 @@ server.route({
     const username = req.params.account_id;
     const password = req.payload.account_password;
     const custom_name = req.payload.custom_name;
-    const hardware_id = req.payload.hardware_id; 
+    const hardware_id = req.payload.hardware_id;
+    const device_name = req.params.device_name; 
 
-    if(username=="test" && password=="test") {
+    if(username=="test" && password=="test" && device_name=="tracker") {
       const randomId = Math.floor((Math.random() * 999999) + 1);
       const deviceInstance = {
         id: randomId,
@@ -52,7 +53,7 @@ server.route({
         .header("Content-Type", "application/json");
 
     } else {
-      reply({message:"Invalid username/password"})
+      reply({message:"Invalid account/password/device_name"})
         .code(401)
         .header("Content-Type", "application/json");
     }
