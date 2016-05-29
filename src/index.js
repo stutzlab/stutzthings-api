@@ -23,12 +23,15 @@ server.route({
     const username = req.params.account_id;
     const password = req.payload.account_password;
     const custom_name = req.payload.custom_name;
+    const hardware_id = req.payload.hardware_id; 
 
     if(username=="test" && password=="test") {
       const randomId = Math.floor((Math.random() * 999999) + 1);
       const deviceInstance = {
         id: randomId,
-        access_token: {client_id:randomId, scopes: ["i:"+randomId+":wr"]},
+        hardware_id: hardware_id,
+        custom_name: custom_name,
+        access_token: JSON.stringify({client_id:randomId, scopes: ["i:"+randomId+":wr"]}),
         mqtt: {
           host: "mqtt.stutzthings.com",
           port: 1883,
@@ -45,10 +48,13 @@ server.route({
       };
       reply(deviceInstance)
         .code(201)
-        .header("Location", HOST_PREFIX = "/resources/" + req.params.account_id + "/" + req.params.device_name + "/" + randomId);
+        .header("Location", HOST_PREFIX = "/resources/" + req.params.account_id + "/" + req.params.device_name + "/" + randomId)
+        .header("Content-Type", "application/json");
 
     } else {
-      reply({message:"Invalid username/password"}).code(401);
+      reply({message:"Invalid username/password"})
+        .code(401)
+        .header("Content-Type", "application/json");
     }
   }
 });
