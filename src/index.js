@@ -19,9 +19,9 @@ server.route({
     //FIXME fake for now. implement!
     //TODO use https://github.com/krakenjs/swaggerize-hapi in the future
 
-    const username = req.query.username;
-    const password = req.query.password;
-    const customName = req.query.customName;
+    const username = req.params.account_id;
+    const password = req.query.account_password;
+    const custom_name = req.query.custom_name;
 
     if(username=="test" && password=="test") {
       const randomId = Math.floor((Math.random() * 999999) + 1);
