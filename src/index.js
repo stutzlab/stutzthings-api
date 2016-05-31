@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const logger = require("winston");
+const logger = require("./logger.js");
 logger.level = "debug";
 
 const hostPrefix = process.env.API_HOST_PREFIX || "http://api.stutzthings.com";

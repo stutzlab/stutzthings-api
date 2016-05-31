@@ -1,7 +1,7 @@
-const logger = require("winston");
+const logger = require("./logger.js");
 const mqtt = require("mqtt");
 
-const READ_TOPIC_TIMEOUT = 2000;
+const READ_TOPIC_TIMEOUT = 5000;
 
 module.exports.init = function(hapiServer, mqttServerUrl, basePath) {
   this.hapiServer = hapiServer;
@@ -20,8 +20,12 @@ module.exports.init = function(hapiServer, mqttServerUrl, basePath) {
       logger.debug("Connecting to " + mqttServerUrl);
       const client = mqtt.connect(mqttServerUrl, {username:req.headers.authorization});
 
+      const topic = req.path.substring(1);
+      var timeoutCode = 401;
+      var timeoutMessage = "Error getting topic data " + topic;
+
       const timeoutTimer = setTimeout(function() {
-        reply("No data found for " + req.path).header('Content-Type', "text/plain").code(204);
+        reply(timeoutMessage).header('Content-Type', "text/plain").code(timeoutCode);
         client.end();
         logger.debug("Disconnecting (t) from " + mqttServerUrl);
       }, READ_TOPIC_TIMEOUT);
@@ -37,10 +41,15 @@ module.exports.init = function(hapiServer, mqttServerUrl, basePath) {
           logger.debug("Disconnecting (n) from " + mqttServerUrl);
         });
 
-        const topic = req.path.substring(1);
-        client.subscribe(topic, null, function(err, granted) {
+        client.subscribe(topic, {qos:2}, function(err, granted) {
           if(err) {
-            reply("Could not subscribe topic '" + req.path + "'. err=" + err).header('Content-Type', "text/plain").code(401);
+            logger.debug("Could not subscribe to " + topic + ". err=" + err);
+            timeoutCode = 500;
+            timeoutMessage = "Could not subscribe topic '" + topic + "'. err=" + err;
+          } else {
+            logger.debug("Subscribed to " + topic);
+            timeoutCode = 204;
+            timeoutMessage = "No data found for " + topic;
           }
         });
       });
