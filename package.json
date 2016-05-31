@@ -16,8 +16,14 @@
     "url": "https://github.com/stutzlab/stutzthings-registration/issues"
   },
   "homepage": "https://github.com/stutzlab/stutzthings-registration#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-run": "^1.6.12",
+    "gulp-shell": "^0.5.2"
+  },
   "dependencies": {
     "hapi": "^13.4.1",
+    "mqtt": "^1.10.0",
     "winston": "^2.2.0"
   }
 }

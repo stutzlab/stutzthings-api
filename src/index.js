@@ -1,19 +1,32 @@
 #!/usr/bin/env node
 
-const logger = require('winston');
+const logger = require("winston");
 logger.level = "debug";
 
-const HOST_PREFIX = process.env.HOST_PREFIX || "http://api.stutzthings.com";
+const hostPrefix = process.env.API_HOST_PREFIX || "http://api.stutzthings.com";
+const mqttServerUrl = process.env.MQTT_SERVER_URL || "mqtt://mqtt.stutzthings.com:1883";
+const prefixPathMqttBridge = process.env.MQTT_PREFIX_PATH || "/v1/{account_id}/{device_id}/{device_instance_topics*}";
+
+logger.info("Starting StutzThings API");
+logger.info("");
+logger.info("hostPrefix: " + hostPrefix);
+logger.info("mqttServerUrl: " + mqttServerUrl);
+logger.info("prefixPathMqttBridge: " + prefixPathMqttBridge);
+logger.info("");
 
 var Hapi = require("hapi");
 var server = new Hapi.Server();
 
 server.connection({port: 3000});
 
+//MQTT REST BRIDGE
+const restMqttBridge = require("./rest-mqtt-route.js");
+restMqttBridge.init(server, mqttServerUrl, prefixPathMqttBridge);
+
 //DEVICE REGISTRATION ENDPOINT
 server.route({
   method: "POST",
-  path: "/v1/{account_id}/{device_name}",
+  path: "/v1/{account_id}/{device_id}",
   handler: function(req, reply) {
     logger.debug("Registering new device instance");
     logger.debug("account_password="+ req.payload.account_password + "; custom_name=" + req.payload.custom_name);
@@ -24,9 +37,9 @@ server.route({
     const password = req.payload.account_password;
     const custom_name = req.payload.custom_name;
     const hardware_id = req.payload.hardware_id;
-    const device_name = req.params.device_name; 
+    const device_id = req.params.device_id;
 
-    if(username=="test" && password=="test" && device_name=="tracker") {
+    if(username=="test" && password=="test" && device_id=="tracker") {
       const randomId = Math.floor((Math.random() * 999999) + 1);
       const deviceInstance = {
         id: randomId,
@@ -37,7 +50,7 @@ server.route({
           host: "mqtt.stutzthings.com",
           port: 1883,
           ssl: false,
-          base_topic: "resources/"+ req.params.account_id +"/"+ req.params.device_name +"/" + randomId
+          base_topic: "v1/"+ req.params.account_id +"/"+ req.params.device_id +"/" + randomId
         },
         ota: {
           enabled: true,
@@ -49,11 +62,11 @@ server.route({
       };
       reply(deviceInstance)
         .code(201)
-        .header("Location", HOST_PREFIX = "/resources/" + req.params.account_id + "/" + req.params.device_name + "/" + randomId)
+        .header("Location", hostPrefix + "/v1/" + req.params.account_id + "/" + req.params.device_id + "/" + randomId)
         .header("Content-Type", "application/json");
 
     } else {
-      reply({message:"Invalid account/password/device_name"})
+      reply({message:"Invalid account/password/device_id"})
         .code(401)
         .header("Content-Type", "application/json");
     }
@@ -69,7 +82,7 @@ server.route({
 });
 
 server.start(function(){ // boots your server
-  console.log("stutzthings-registration started on port 3000");
+  console.log("stutzthings-api started on port 3000");
 });
 
 module.exports = server;

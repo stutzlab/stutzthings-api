@@ -1,11 +1,11 @@
 
 API
 
-/resources/[account_id]/[device_name]/[device_id]/[node_name]/[attribute_name]
-/resources/[device_name]
+/v1/[account_id]/[device_id]/[device_instance_id]/[node_name]/[attribute_name]
+/v1/[device_name]
 
 Ex:
-POST /resources/flaviostutz/argibee -> registers a new argibee device instance to flaviostutz account
+POST /v1/flaviostutz/argibee -> registers a new argibee device instance to flaviostutz account
     REQ {hw_id: 323223, password: 123, pub_key: 3232323232233232}
     RES Location: /resources/flaviostutz/argibee/23423423432
   * If there is a previous registration for the same account and the same hw_id, reuse the registration number so that previous authorizations will remain intact
@@ -13,11 +13,11 @@ POST /resources/flaviostutz/argibee -> registers a new argibee device instance t
 
 MQTT
 (same as API)
-/resources/[account_id]/[device_name]/[device_id]/[node_name]/[attribute_name]
+/v1/[account_id]/[device_id]/[device_instance_id]/[node_name]/[attribute_name]
 
 Ex:
-TOPIC /resources/flaviostutz/argibee/3498439349/stripe/animation
-TOPIC /resources/flaviostutz/argibee/3498439349/stripe/animation/set
+TOPIC /v1/flaviostutz/argibee/3498439349/stripe/animation
+TOPIC /v1/flaviostutz/argibee/3498439349/stripe/animation/set
 
 
 
