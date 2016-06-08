@@ -74,6 +74,16 @@ server.route({
 });
 
 server.route({
+  method: "POST",
+  path: "/v1/test",
+  handler: function(req, reply) {
+    console.log("Just received /v1/test POST");
+    console.log(req.payload);
+    reply("OK");
+  }
+});
+
+server.route({
   method: "*",
   path: "/{p*}",
   handler: function (req, reply) {

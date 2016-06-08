@@ -1,3 +1,5 @@
+ESP8266 MQTT client can send 2 messages/second, limited to 128 bytes each
+
 
 API
 
