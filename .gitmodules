@@ -1,0 +1,3 @@
+[submodule "stutzthings-mosquitto"]
+	path = stutzthings-mosquitto
+	url = https://github.com/stutzlab/stutzthings-mosquitto.git
