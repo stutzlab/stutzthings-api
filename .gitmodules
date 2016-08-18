@@ -1,6 +1,0 @@
-[submodule "stutzthings-mosquitto"]
-	path = stutzthings-mosquitto
-	url = https://github.com/stutzlab/stutzthings-mosquitto.git
-[submodule "stutzthings-influx"]
-	path = stutzthings-influx
-	url = https://github.com/stutzlab/stutzthings-influx.git
