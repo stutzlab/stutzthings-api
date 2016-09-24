@@ -3,7 +3,7 @@
 const logger = require("./logger.js");
 logger.level = "debug";
 
-const hostPrefix = process.env.API_HOST_PREFIX || "http://api.stutzthings.com";
+aconst hostPrefix = process.env.API_HOST_PREFIX || "http://devices.api.stutzthings.com";
 const mqttServerUrl = process.env.MQTT_SERVER_URL || "mqtt://mqtt.stutzthings.com:1883";
 const prefixPathMqttBridge = process.env.MQTT_PREFIX_PATH || "/v1/{account_id}/{device_id}/{device_instance_topics*}";
 
@@ -39,7 +39,7 @@ server.route({
     const hardware_id = req.payload.hardware_id;
     const device_id = req.params.device_id;
 
-    if(username=="test" && password=="test" && device_id=="tracker") {
+    if(username=="some" && password=="one" && device_id=="tracker") {
       const randomId = Math.floor((Math.random() * 999999) + 1);
       const deviceInstance = {
         id: randomId,
