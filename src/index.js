@@ -3,7 +3,7 @@
 const logger = require("./logger.js");
 logger.level = "debug";
 
-aconst hostPrefix = process.env.API_HOST_PREFIX || "http://api.devices.stutzthings.com";
+const hostPrefix = process.env.API_HOST_PREFIX || "http://api.devices.stutzthings.com";
 const mqttServerUrl = process.env.MQTT_SERVER_URL || "mqtt://mqtt.devices.stutzthings.com:1883";
 const prefixPathMqttBridge = process.env.MQTT_PREFIX_PATH || "/v1/{account_id}/{device_id}/{device_instance_topics*}";
 
