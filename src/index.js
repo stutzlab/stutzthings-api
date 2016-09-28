@@ -17,7 +17,7 @@ logger.info("");
 var Hapi = require("hapi");
 var server = new Hapi.Server();
 
-server.connection({port: 3000});
+server.connection({port: 80});
 
 //MQTT REST BRIDGE
 const restMqttBridge = require("./rest-mqtt-route.js");
